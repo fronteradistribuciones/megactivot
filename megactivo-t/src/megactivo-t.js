@@ -8,12 +8,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyAvV0oSg6a0BsKdMiyGSkY5JhJDujLuvuY",
+  apiKey: "zaSyAVoS6a0sKdMiyGSkYA5vJhJBDuj0LIugvuY",
   authDomain: "megactivot.firebaseapp.com",
   projectId: "megactivot",
   storageBucket: "megactivot.appspot.com",
-  messagingSenderId: "808982428369",
-  appId: "1:808982428369:web:cac15d5a8adca1ff17e3f0"
+  messagingSenderId: "802984838629",
+  appId: "1:802984838629:web:c1a1d5a8adcff1c7ea35f0"
 };
 
 // Initialize Firebase
@@ -204,8 +204,8 @@ class MegactivoT extends LitElement {
         data.get("prompt")
       );
 
-    //response = await fetch("https://guandolo.onrender.com", {
-    response = await fetch("http://localhost:5000", {
+    //response = await fetch("http://localhost:5000", {
+    response = await fetch("https://megactivot.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
