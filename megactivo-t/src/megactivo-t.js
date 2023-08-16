@@ -219,7 +219,7 @@ class MegactivoT extends LitElement {
         }),
     });*/
     if (this.taskId==2) {
-      response = await fetch("http://localhost:5000", {
+      response = await fetch("https://megactivot.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -230,7 +230,7 @@ class MegactivoT extends LitElement {
         }),
       });
     } else {
-      response = await fetch("http://localhost:5000", {
+      response = await fetch("https://megactivot.onrender.com", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
