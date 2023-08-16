@@ -131,7 +131,7 @@ class MegactivoT extends LitElement {
     super();
     this.taskId = 0;
     this.conversation = [
-      {role: 'system', content: 'you are friendly assistant that answers only things related to the company megactivo.com which offers an accounting and administrative app. If the user asks things that are not related to this company, do not answer the question but rather advise them respectfuly that only things related to megactivo.com can be answered.'}
+      {role: 'system', content: 'you are friendly assistant that answers only things related to the company megactivo which offers an accounting and administrative app. If the user asks things that are not related to this company, do not answer the question but rather advise them respectfuly that only things related to megactivo can be answered.'}
     ];
   }
 
@@ -207,8 +207,8 @@ class MegactivoT extends LitElement {
 
     let response;
 
-    //response = await fetch("http://localhost:5000", {
-    response = await fetch("https://megactivot.onrender.com", {
+    //response = await fetch("https://megactivot.onrender.com", {
+    /*response = await fetch("http://localhost:5000", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -217,7 +217,30 @@ class MegactivoT extends LitElement {
           prompt: `${(this.taskId==2) ? this.conversation : data.get("prompt")}`,
           taskId: this.taskId,
         }),
-    });
+    });*/
+    if (this.taskId==2) {
+      response = await fetch("http://localhost:5000", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: this.conversation,
+          taskId: this.taskId,
+        }),
+      });
+    } else {
+      response = await fetch("http://localhost:5000", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: data.get("prompt"),
+          taskId: this.taskId,
+        }),
+      });
+    }
     
 
     clearInterval(loadInterval)

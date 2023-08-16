@@ -25,7 +25,6 @@ app.post('/', async (req, res) => {
   try {
     const prompt = req.body.prompt;
     const taskId = req.body.taskId;
-
     if (taskId == 1) {
       const response = await openai.createCompletion({
         model: "text-davinci-003",
