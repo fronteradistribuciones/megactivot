@@ -8,12 +8,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "zaSyAVoS6a0sKdMiyGSkYA5vJhJBDuj0LIugvuY",
+  apiKey: "AIzaSyAvV0oSg6a0BsKdMiyGSkY5JhJDujLuvuY",
   authDomain: "megactivot.firebaseapp.com",
   projectId: "megactivot",
   storageBucket: "megactivot.appspot.com",
-  messagingSenderId: "802984838629",
-  appId: "1:802984838629:web:c1a1d5a8adcff1c7ea35f0"
+  messagingSenderId: "808982428369",
+  appId: "1:808982428369:web:cac15d5a8adca1ff17e3f0"
 };
 
 // Initialize Firebase
@@ -66,7 +66,8 @@ function generateUniqueId() {
 class MegactivoT extends LitElement {
   static get properties() {
     return {
-      title: {},
+      taskId: { type: Number },
+      conversation: { type: Array },
     };
   }
 
@@ -128,6 +129,10 @@ class MegactivoT extends LitElement {
 
   constructor() {
     super();
+    this.taskId = 0;
+    this.conversation = [
+      {role: 'system', content: 'you are friendly assistant that answers only things related to the company megactivo.com which offers an accounting and administrative app. If the user asks things that are not related to this company, do not answer the question but rather advise them respectfuly that only things related to megactivo.com can be answered.'}
+    ];
   }
 
   firstUpdated() {
@@ -178,7 +183,10 @@ class MegactivoT extends LitElement {
     const data = new FormData(this.form);
 
     // user's chatstripe
-    this.chatContainer.innerHTML += this.chatStripe(false, data.get('prompt'))
+    this.chatContainer.innerHTML += this.chatStripe(false, data.get('prompt'));
+
+    if (this.taskId==2)
+        this.conversation.push({role: 'user', content: data.get('prompt')});
 
     // to clear the textarea input 
     this.form.reset()
@@ -198,11 +206,6 @@ class MegactivoT extends LitElement {
     loader(messageDiv)
 
     let response;
-    
-    console.log(
-        "lets call the server with this prompt: ",
-        data.get("prompt")
-      );
 
     //response = await fetch("http://localhost:5000", {
     response = await fetch("https://megactivot.onrender.com", {
@@ -211,7 +214,8 @@ class MegactivoT extends LitElement {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          prompt: data.get("prompt")
+          prompt: `${(this.taskId==2) ? this.conversation : data.get("prompt")}`,
+          taskId: this.taskId,
         }),
     });
     
@@ -221,13 +225,12 @@ class MegactivoT extends LitElement {
 
     if (response.ok) {
       const data = await response.json();
-      const parsedData = data.bot.trim() // trims any trailing spaces/'\n' 
-
-      typeText(messageDiv, parsedData)
-
+      const parsedData = data.bot.trim(); // trims any trailing spaces/'\n' 
+      if (this.taskId==2)
+        this.conversation.push({role: 'assistant', content: parsedData});
+      typeText(messageDiv, parsedData);
     } else {
-      const err = await response.text()
-
+      const err = await response.text();
       messageDiv.innerHTML = "Something went wrong"
       alert(err)
       console.log(err)
