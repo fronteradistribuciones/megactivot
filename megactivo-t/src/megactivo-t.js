@@ -66,7 +66,7 @@ function generateUniqueId() {
 class MegactivoT extends LitElement {
   static get properties() {
     return {
-      taskId: { type: Number },
+      taskId: { type: Number },//2=conversation 1=single command 0=embeddings
       conversation: { type: Array },
     };
   }
@@ -207,18 +207,8 @@ class MegactivoT extends LitElement {
 
     let response;
 
-    //response = await fetch("https://megactivot.onrender.com", {
-    /*response = await fetch("http://localhost:5000", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          prompt: `${(this.taskId==2) ? this.conversation : data.get("prompt")}`,
-          taskId: this.taskId,
-        }),
-    });*/
     if (this.taskId==2) {
+      //response = await fetch("http://localhost:5000", {
       response = await fetch("https://megactivot.onrender.com", {
         method: "POST",
         headers: {
